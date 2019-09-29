@@ -70,7 +70,7 @@ storiesOf('Sheet', module)
     </div>
   ))
   .add('Add Buttons', () => (
-    <div style={styles}>
+    <div style={{ ...styles, width: 200 }}>
       <Sheet
         columns={columns}
         rowCount={rows.length}

@@ -27,6 +27,14 @@ class Body extends React.Component {
     const isSelected = columnIndex === selectedCell.columnIndex && rowIndex === selectedCell.rowIndex
     const isEditing = editingCell && columnIndex === editingCell.columnIndex && rowIndex === editingCell.rowIndex
 
+    const row = rowGetter(rowIndex)
+    const column = getColumn(columnIndex)
+
+    if (!column || !row) return null
+
+    const value = isEditing && editingCell.updatedValue ? editingCell.updatedValue : row[column.key]
+
+
     const onSelectCell = () => {
       if (isEditing) return
       this.props.selectCell({
@@ -49,10 +57,6 @@ class Body extends React.Component {
         updatedValue,
       })
     }
-
-    const row = rowGetter(rowIndex)
-    const column = getColumn(columnIndex)
-    const value = isEditing && editingCell.updatedValue ? editingCell.updatedValue : row[column.key]
 
     return (
       <Cell

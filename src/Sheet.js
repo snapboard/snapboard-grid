@@ -272,7 +272,7 @@ class Sheet extends React.Component {
                                 onScroll(pos)
                                 this.onScroll(pos)
                               }}
-                              columnCount={columnCount}
+                              columnCount={onAddColumn ? columnCount + 1 : columnCount}
                               rowCount={rowCount}
                               totalHeight={totalHeight}
                               totalWidth={totalWidth}
