@@ -1,6 +1,6 @@
 {
   "name": "@snapboard/grid",
-  "version": "0.23.0",
+  "version": "0.24.0",
   "description": "A grid library used for Snapboard",
   "main": "./dist/index.js",
   "module": "./dist/es/index.js",
