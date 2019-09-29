@@ -3,11 +3,21 @@ import { css } from '@emotion/core'
 import { Grid } from 'react-virtualized'
 import GutterCell from './GutterCell'
 import scrollbarSize from 'dom-helpers/scrollbarSize'
+import sharedStyles from './styles'
 
 class Gutter extends React.Component {
   renderGutterCell = ({ key, rowIndex, style }) => {
-    const { rowCount, showAddRow, gutterOffset, rowMenu } = this.props
-    if (showAddRow && rowIndex === rowCount) return
+    const { rowCount, showAddRow, gutterOffset, rowMenu, onAddRow } = this.props
+    if (showAddRow && rowIndex === rowCount) {
+      return (
+        <div
+          onClick={() => onAddRow && onAddRow(rowCount)}
+          css={styles.addRow}
+          style={style}>
+          +
+        </div>
+      )
+    }
 
     return (
       <GutterCell
@@ -68,6 +78,17 @@ const styles = {
   gutterGrid: css`
     overflow: hidden !important;
     outline: none;
+  `,
+  addRow: css`
+    ${sharedStyles.cell}
+    border: 0;
+    color: #999;
+    font-weight: 600;
+    text-align: center;
+    :hover {
+      background: #f4f4f4;
+      cursor: pointer;
+    }
   `,
 }
 

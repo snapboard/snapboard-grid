@@ -49,6 +49,7 @@ const styles = {
     text-align: center;
     color: #888;
     font-size: 0.95em;
+    background-color: #f9f9f9;
   `,
 }
 

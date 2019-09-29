@@ -5,24 +5,11 @@ import Cell from './Cell'
 import sharedStyles from './styles'
 
 class Body extends React.Component {
-  renderAddRow = ({ style }) => {
-    const { onAddRow, rowCount } = this.props
-    return (
-      <div
-        onClick={() => onAddRow && onAddRow(rowCount)}
-        css={styles.addRow}
-        style={{ ...style, width: this.getColumnWidths() }}>
-        + Add Row
-      </div>
-    )
-  }
-
   renderCell = ({ columnIndex, selectedCell, editingCell, key, rowIndex, style }) => {
     const { rowGetter, getColumn, onEditDone, rowCount, showAddRow } = this.props
 
     if (columnIndex < 1) return
-    if (showAddRow && rowIndex === rowCount && columnIndex !== 1) return
-    if (showAddRow && rowIndex === rowCount) return this.renderAddRow({ style })
+    if (showAddRow && rowIndex === rowCount) return
 
     const isSelected = columnIndex === selectedCell.columnIndex && rowIndex === selectedCell.rowIndex
     const isEditing = editingCell && columnIndex === editingCell.columnIndex && rowIndex === editingCell.rowIndex

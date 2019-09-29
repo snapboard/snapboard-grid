@@ -14,7 +14,7 @@ const styles = {
 const columns = [
   { key: 'id', name: 'ID', editable: true, width: 40 },
   { key: 'title', name: 'Title', editable: true },
-  { key: 'complete', name: 'Complete', editable: true },
+  { key: 'complete', name: 'Complete', editable: true, width: 300 },
 ]
 
 const rows = [
