@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import Sheet from '../Sheet'
@@ -9,6 +9,11 @@ const styles = {
   width: 700,
   position: 'relative',
   border: '1px solid #eee',
+}
+
+const State = ({ children, initialState }) => {
+  const [data, setData] = useState(initialState)
+  return children(data, setData)
 }
 
 const columns = [
@@ -95,4 +100,49 @@ storiesOf('Sheet', module)
         readOnly
       />
     </div>
+  ))
+
+  .add('Column State', () => (
+    <State initialState={columns}>
+      {(columns, setColumns) => (
+        <div style={styles}>
+          <Sheet
+            columns={columns}
+            rowCount={rows.length}
+            rowGetter={i => rows[i]}
+            gutterOffset={0}
+            onColumnResize={(columnIndex, offset) => {
+              const update = columns.slice(0)
+              const column = columns[columnIndex]
+              update[columnIndex] = { ...column, width: Math.max(30, (column.width || 75) + offset) }
+              setColumns(update)
+            }}
+          />
+          <button onClick={() => setColumns(columns.slice(1))}>Delete</button>
+        </div>
+      )}
+    </State>
+  ))
+
+  .add('Edit', () => (
+    <State initialState={rows}>
+      {(rows, setRows) => (
+        <div style={styles}>
+          <Sheet
+            columns={columns}
+            rowCount={rows.length}
+            rowGetter={i => rows[i]}
+            gutterOffset={0}
+            onRowsChange={({ fromRow, toRow, updated }) => {
+              const updatedRows = []
+              for (let index = 0; index < rows.length; index++) {
+                const row = rows[index]
+                updatedRows[index] = index >= fromRow && index <= toRow ? {...row, ...updated} : row
+              }
+              setRows(updatedRows)
+            }}
+          />
+        </div>
+      )}
+    </State>
   ))

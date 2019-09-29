@@ -6,10 +6,11 @@ import HeaderCell from './HeaderCell'
 import sharedStyles from './styles'
 
 class Header extends React.Component {
-  renderAddColumn = ({ style }) => {
+  renderAddColumn = ({ key, style }) => {
     const { onAddColumn, columnCount } = this.props
     return (
       <div
+        key={key}
         css={styles.addColumn}
         style={style}
         onClick={() => onAddColumn && onAddColumn(columnCount - 1)}>+
@@ -22,7 +23,7 @@ class Header extends React.Component {
       getColumn, columnCount, showAddColumn, columnMenu,
     } = this.props
     if (columnIndex < 1) return null
-    if (showAddColumn && columnIndex === columnCount) return this.renderAddColumn({ style })
+    if (showAddColumn && columnIndex === columnCount) return this.renderAddColumn({ key, style })
 
     const column = getColumn(columnIndex)
 

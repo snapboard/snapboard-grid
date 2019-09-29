@@ -4,6 +4,7 @@ import isFunction from 'lodash/isFunction'
 import isEqual from 'lodash/isEqual'
 import { ScrollSync, AutoSizer } from 'react-virtualized'
 import 'react-virtualized/styles.css'
+import OutsideClickHandler from 'react-outside-click-handler'
 import KeyboardEventHandler from 'react-keyboard-event-handler'
 import Notch from './Notch'
 import Gutter from './Gutter'
@@ -32,7 +33,6 @@ class Sheet extends React.Component {
 
   componentWillUpdate (nextProps) {
     const { columns } = this.props
-
     if (!isEqual(getWidths(columns), getWidths(nextProps.columns))) {
       this.headerRef.recomputeGridSize()
       this.bodyRef.recomputeGridSize()
@@ -42,7 +42,7 @@ class Sheet extends React.Component {
 
   onScroll = (pos) => {
     if (this.isUpdatingGrid) {
-      this.bodyRef.scrollToPosition(this.scrollPos)
+      if (this.bodyRef) this.bodyRef.scrollToPosition(this.scrollPos)
       this.isUpdatingGrid = false
     }
     this.scrollPos = pos
@@ -139,6 +139,13 @@ class Sheet extends React.Component {
     })
   }
 
+  onOutsideClick = () => {
+    this.setState({
+      editingCell: null,
+      selectedCell: { rowIndex: 0, columnIndex: 0 },
+    })
+  }
+
   handleOnKeyEvent = (key, e) => {
     if (key === 'enter') {
       this.selectCell(({ columnIndex, rowIndex }) => ({
@@ -169,6 +176,11 @@ class Sheet extends React.Component {
         rowIndex,
       }))
       return
+    }
+    if (key === 'shift') {
+      this.editCell({
+        ...this.state.selectedCell,
+      })
     }
     if (key === 'esc') {
       e.stopImmediatePropagation()
@@ -215,97 +227,108 @@ class Sheet extends React.Component {
           'tab', 'shift+tab', 'esc', 'alphanumeric', 'shift',
         ]}
         onKeyEvent={this.handleOnKeyEvent}
-        style={{ height: '100%', display: 'block' }}
+        css={styles.handlers}
       >
-        <AutoSizer disableWidth>
-          {({ height: totalHeight }) => (
-            <ScrollSync>
-              {({
-                onScroll,
-                scrollLeft,
-                scrollTop,
-              }) => {
-                return (
-                  <div css={styles.grid} ref={ref => { this.gridRef = ref }} tabIndex='0'>
-                    <Notch
-                      gutterWidth={gutterWidth}
-                      rowHeight={rowHeight}
-                    />
-                    <Gutter
-                      overscanColumnCount={overscanColumnCount}
-                      overscanRowCount={overscanRowCount}
-                      gutterWidth={gutterWidth}
-                      gutterOffset={gutterOffset}
-                      rowHeight={rowHeight}
-                      totalHeight={totalHeight}
-                      rowCount={rowCount}
-                      scrollTop={scrollTop}
-                      rowMenu={rowMenu}
-                      showAddRow={!!onAddRow}
-                      onAddRow={onAddRow}
-                    />
-                    <div css={styles.gridColumn}>
-                      <AutoSizer disableHeight>
-                        {({ width: totalWidth }) => (
-                          <div>
-                            <Header
-                              innerRef={ref => { this.headerRef = ref }}
-                              rowHeight={rowHeight}
-                              totalWidth={totalWidth}
-                              scrollLeft={scrollLeft}
-                              overscanColumnCount={overscanColumnCount}
-                              columnCount={columnCount}
-                              getColumn={this.getColumn}
-                              getColumnWidth={this.getColumnWidth}
-                              estimatedColumnWidth={estimatedColumnWidth}
-                              columnMenu={columnMenu}
-                              onColumnResize={onColumnResize}
-                              onAddColumn={onAddColumn}
-                              showAddColumn={!!onAddColumn}
-                            />
-                            <Body
-                              innerRef={ref => { this.bodyRef = ref }}
-                              rowGetter={rowGetter}
-                              overscanColumnCount={overscanColumnCount}
-                              overscanRowCount={overscanRowCount}
-                              onScroll={pos => {
-                                onScroll(pos)
-                                this.onScroll(pos)
-                              }}
-                              columnCount={onAddColumn ? columnCount + 1 : columnCount}
-                              rowCount={rowCount}
-                              totalHeight={totalHeight}
-                              totalWidth={totalWidth}
-                              rowHeight={rowHeight}
-                              editingCell={editingCell}
-                              selectedCell={selectedCell}
-                              scrolledToCell={scrolledToCell}
-                              onEditDone={this.handleOnEditDone}
-                              editCell={this.editCell}
-                              selectCell={this.selectCell}
-                              scrollToCell={this.scrollToCell}
-                              getColumn={this.getColumn}
-                              getColumnWidth={this.getColumnWidth}
-                              estimatedColumnWidth={estimatedColumnWidth}
-                              onAddRow={onAddRow}
-                              showAddRow={!!onAddRow}
-                            />
-                          </div>
-                        )}
-                      </AutoSizer>
+        <OutsideClickHandler onOutsideClick={this.onOutsideClick}>
+
+          <AutoSizer disableWidth>
+            {({ height: totalHeight }) => (
+              <ScrollSync>
+                {({
+                  onScroll,
+                  scrollLeft,
+                  scrollTop,
+                }) => {
+                  return (
+                    <div css={styles.grid} ref={ref => { this.gridRef = ref }} tabIndex='0'>
+                      <Notch
+                        gutterWidth={gutterWidth}
+                        rowHeight={rowHeight}
+                      />
+                      <Gutter
+                        overscanColumnCount={overscanColumnCount}
+                        overscanRowCount={overscanRowCount}
+                        gutterWidth={gutterWidth}
+                        gutterOffset={gutterOffset}
+                        rowHeight={rowHeight}
+                        totalHeight={totalHeight}
+                        rowCount={rowCount}
+                        scrollTop={scrollTop}
+                        rowMenu={rowMenu}
+                        showAddRow={!!onAddRow}
+                        onAddRow={onAddRow}
+                      />
+                      <div css={styles.gridColumn}>
+                        <AutoSizer disableHeight>
+                          {({ width: totalWidth }) => (
+                            <div>
+                              <Header
+                                innerRef={ref => { this.headerRef = ref }}
+                                rowHeight={rowHeight}
+                                totalWidth={totalWidth}
+                                scrollLeft={scrollLeft}
+                                overscanColumnCount={overscanColumnCount}
+                                columnCount={columnCount}
+                                getColumn={this.getColumn}
+                                getColumnWidth={this.getColumnWidth}
+                                estimatedColumnWidth={estimatedColumnWidth}
+                                columnMenu={columnMenu}
+                                onColumnResize={onColumnResize}
+                                onAddColumn={onAddColumn}
+                                showAddColumn={!!onAddColumn}
+                              />
+                              <Body
+                                innerRef={ref => { this.bodyRef = ref }}
+                                rowGetter={rowGetter}
+                                overscanColumnCount={overscanColumnCount}
+                                overscanRowCount={overscanRowCount}
+                                onScroll={pos => {
+                                  onScroll(pos)
+                                  this.onScroll(pos)
+                                }}
+                                columnCount={onAddColumn ? columnCount + 1 : columnCount}
+                                rowCount={rowCount}
+                                totalHeight={totalHeight}
+                                totalWidth={totalWidth}
+                                rowHeight={rowHeight}
+                                editingCell={editingCell}
+                                selectedCell={selectedCell}
+                                scrolledToCell={scrolledToCell}
+                                onEditDone={this.handleOnEditDone}
+                                editCell={this.editCell}
+                                selectCell={this.selectCell}
+                                scrollToCell={this.scrollToCell}
+                                getColumn={this.getColumn}
+                                getColumnWidth={this.getColumnWidth}
+                                estimatedColumnWidth={estimatedColumnWidth}
+                                onAddRow={onAddRow}
+                                showAddRow={!!onAddRow}
+                              />
+                            </div>
+                          )}
+                        </AutoSizer>
+                      </div>
                     </div>
-                  </div>
-                )
-              }}
-            </ScrollSync>
-          )}
-        </AutoSizer>
+                  )
+                }}
+              </ScrollSync>
+            )}
+          </AutoSizer>
+        </OutsideClickHandler>
       </KeyboardEventHandler>
     )
   }
 }
 
 const styles = {
+  handlers: css`
+    height: 100%;
+    display: block;
+    > div {
+      height: 100%;
+      display: block;
+    }
+  `,
   grid: css`
     position: relative;
     display: flex;

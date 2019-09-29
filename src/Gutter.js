@@ -11,6 +11,7 @@ class Gutter extends React.Component {
     if (showAddRow && rowIndex === rowCount) {
       return (
         <div
+          key={key}
           onClick={() => onAddRow && onAddRow(rowCount)}
           css={styles.addRow}
           style={style}>
