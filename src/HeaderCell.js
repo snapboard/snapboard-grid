@@ -24,16 +24,16 @@ function HeaderDragHandle ({ onResize }) {
 }
 
 function HeaderCell ({ column, style, menuData, onResize, columnIndex }) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [menuIsOpen, setMenuIsOpen] = useState(false)
   const ref = useRef()
 
   const onContextMenu = (e) => {
     e.preventDefault()
-    setIsOpen(true)
+    setMenuIsOpen(true)
   }
 
   const cellStyles = [sharedStyles.cell, styles.headerCell]
-  if (isOpen) {
+  if (menuIsOpen) {
     cellStyles.push('background: #eee;')
   }
 
@@ -44,12 +44,12 @@ function HeaderCell ({ column, style, menuData, onResize, columnIndex }) {
       content={() => (
         <Menu
           data={menuData}
-          onRequestClose={() => setIsOpen(false)}
+          onRequestClose={() => setMenuIsOpen(false)}
           context={{ columnIndex: columnIndex - 1, ref: ref.current }}
         />
       )}
-      isOpen={isOpen}
-      onClickOutside={() => setIsOpen(false)}
+      isOpen={menuIsOpen}
+      onClickOutside={() => setMenuIsOpen(false)}
     >
       <div
         ref={ref}
@@ -71,6 +71,9 @@ const styles = {
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     position: relative;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     .drag-handle {
       position: absolute;
       top: 0;
