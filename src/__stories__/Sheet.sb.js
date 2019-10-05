@@ -41,6 +41,9 @@ const rows = [
 const columnMenu = [{
   text: 'Rename',
   onClick: action('Rename'),
+  popover: () => {
+    return <div style={{ width: 100, height: 100, background: 'blue' }}>Hello World</div>
+  },
 }, {
   text: 'Insert Left',
   onClick: action('Insert Left'),
@@ -137,7 +140,7 @@ storiesOf('Sheet', module)
               const updatedRows = []
               for (let index = 0; index < rows.length; index++) {
                 const row = rows[index]
-                updatedRows[index] = index >= fromRow && index <= toRow ? {...row, ...updated} : row
+                updatedRows[index] = index >= fromRow && index <= toRow ? { ...row, ...updated } : row
               }
               setRows(updatedRows)
             }}
