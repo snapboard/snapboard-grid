@@ -73,7 +73,7 @@ class Gutter extends React.Component {
 const styles = {
   gutterGridContainer: css`
     flex: 0 0 75px;
-    z-index: 10;
+    z-index: 1;
     outline: none;
   `,
   gutterGrid: css`

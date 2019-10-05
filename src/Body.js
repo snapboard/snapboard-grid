@@ -21,7 +21,6 @@ class Body extends React.Component {
 
     const value = isEditing && editingCell.updatedValue ? editingCell.updatedValue : row[column.key]
 
-
     const onSelectCell = () => {
       if (isEditing) return
       this.props.selectCell({
