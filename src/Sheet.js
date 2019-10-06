@@ -350,7 +350,7 @@ const styles = {
   `,
   notch: css`
     flex: 0 0 75px;
-    z-index: 10;
+    z-index: 3;
     outline: none;
   `,
 }
