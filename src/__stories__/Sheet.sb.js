@@ -20,15 +20,17 @@ const columns = [
   { key: 'id', name: 'ID', editable: true, width: 40 },
   { key: 'title', name: 'Title', editable: true },
   { key: 'complete', name: 'Complete', editable: true, width: 300 },
+  { key: 'success', name: 'Success', width: 100 },
+  { key: 'started', name: 'Started At', width: 100 },
 ]
 
 const rows = [
-  { id: 10, title: 'Task 1', complete: 20 },
-  { id: 20, title: 'Task 2', complete: 40 },
-  { id: 30, title: 'Task 3', complete: 60 },
-  { id: 40, title: 'Task 4', complete: 20 },
-  { id: 50, title: 'Task 5', complete: 40 },
-  { id: 60, title: 'Task 6', complete: 20 },
+  { id: 10, title: 'Task 1', complete: 20, success: true, started: new Date() },
+  { id: 20, title: 'Task 2', complete: 40, success: true },
+  { id: 30, title: 'Task 3', complete: 60, success: false },
+  { id: 40, title: 'Task 4', complete: 20, success: true },
+  { id: 50, title: 'Task 5', complete: 40, success: null },
+  { id: 60, title: 'Task 6', complete: 20, success: false },
   { id: 70, title: 'Task 7', complete: 40 },
   { id: 80, title: 'Task 8', complete: 60 },
   { id: 90, title: 'Task 9', complete: 20 },
