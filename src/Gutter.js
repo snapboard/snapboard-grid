@@ -48,7 +48,6 @@ class Gutter extends React.Component {
         css={styles.gutterGridContainer}
         style={{
           position: 'absolute',
-          left: 0,
           top: noHeader ? 0 : rowHeight,
           backgroundColor: '#f9f9f9',
         }}
