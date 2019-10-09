@@ -93,6 +93,7 @@ class Body extends React.Component {
       getColumnWidth,
       estimatedColumnWidth,
       showAddRow,
+      noHeader,
     } = this.props
 
     return (
@@ -132,7 +133,7 @@ class Body extends React.Component {
               estimatedColumnSize={estimatedColumnWidth}
               columnWidth={getColumnWidth}
               columnCount={columnCount}
-              height={totalHeight - rowHeight}
+              height={totalHeight - (noHeader ? 0 : rowHeight)}
               onScroll={onScroll}
               overscanColumnCount={overscanColumnCount}
               overscanRowCount={overscanRowCount}

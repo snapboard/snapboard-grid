@@ -149,3 +149,19 @@ storiesOf('Sheet', module)
       )}
     </State>
   ))
+
+  .add('No headings', () => (
+    <State initialState={rows}>
+      {(rows, setRows) => (
+        <div style={styles}>
+          <Sheet
+            noHeader
+            columns={columns}
+            rowCount={rows.length}
+            rowGetter={i => rows[i]}
+            gutterOffset={0}
+          />
+        </div>
+      )}
+    </State>
+  ))

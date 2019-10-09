@@ -41,6 +41,7 @@ class Gutter extends React.Component {
       rowCount,
       scrollTop,
       showAddRow,
+      noHeader,
     } = this.props
     return (
       <div
@@ -48,7 +49,7 @@ class Gutter extends React.Component {
         style={{
           position: 'absolute',
           left: 0,
-          top: rowHeight,
+          top: noHeader ? 0 : rowHeight,
           backgroundColor: '#f9f9f9',
         }}
       >
@@ -59,7 +60,7 @@ class Gutter extends React.Component {
           cellRenderer={this.renderGutterCell}
           columnWidth={gutterWidth}
           columnCount={1}
-          height={totalHeight - rowHeight - scrollbarSize()}
+          height={totalHeight - (noHeader ? 0 : rowHeight) - scrollbarSize()}
           rowHeight={rowHeight}
           rowCount={showAddRow ? rowCount + 1 : rowCount}
           scrollTop={scrollTop}

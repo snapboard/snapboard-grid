@@ -210,6 +210,7 @@ class Sheet extends React.Component {
       rowMenu,
       onAddRow,
       onAddColumn,
+      noHeader,
     } = this.props
 
     const {
@@ -230,7 +231,6 @@ class Sheet extends React.Component {
         css={styles.handlers}
       >
         <OutsideClickHandler onOutsideClick={this.onOutsideClick}>
-
           <AutoSizer disableWidth>
             {({ height: totalHeight }) => (
               <ScrollSync>
@@ -241,10 +241,10 @@ class Sheet extends React.Component {
                 }) => {
                   return (
                     <div css={styles.grid} ref={ref => { this.gridRef = ref }} tabIndex='0'>
-                      <Notch
+                      {!noHeader ? (<Notch
                         gutterWidth={gutterWidth}
                         rowHeight={rowHeight}
-                      />
+                      />) : null}
                       <Gutter
                         overscanColumnCount={overscanColumnCount}
                         overscanRowCount={overscanRowCount}
@@ -257,12 +257,13 @@ class Sheet extends React.Component {
                         rowMenu={rowMenu}
                         showAddRow={!!onAddRow}
                         onAddRow={onAddRow}
+                        noHeader={noHeader}
                       />
                       <div css={styles.gridColumn}>
                         <AutoSizer disableHeight>
                           {({ width: totalWidth }) => (
                             <div>
-                              <Header
+                              {!noHeader ? (<Header
                                 innerRef={ref => { this.headerRef = ref }}
                                 rowHeight={rowHeight}
                                 totalWidth={totalWidth}
@@ -276,7 +277,7 @@ class Sheet extends React.Component {
                                 onColumnResize={onColumnResize}
                                 onAddColumn={onAddColumn}
                                 showAddColumn={!!onAddColumn}
-                              />
+                              />) : null}
                               <Body
                                 innerRef={ref => { this.bodyRef = ref }}
                                 rowGetter={rowGetter}
@@ -303,6 +304,7 @@ class Sheet extends React.Component {
                                 estimatedColumnWidth={estimatedColumnWidth}
                                 onAddRow={onAddRow}
                                 showAddRow={!!onAddRow}
+                                noHeader={noHeader}
                               />
                             </div>
                           )}
