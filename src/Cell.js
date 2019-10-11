@@ -97,7 +97,7 @@ class Cell extends React.Component {
 }
 
 function getValue (value) {
-  if (isArray(value)) return value[0]
+  // if (isArray(value)) return value[0]
   if (isObject(value)) return JSON.stringify(value)
   if (value && value.toString) return value.toString()
   if (value === null) return 'null'
