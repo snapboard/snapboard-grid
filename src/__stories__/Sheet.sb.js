@@ -37,7 +37,7 @@ const rows = [
   { id: 100, title: 'Task 10', complete: 20 },
   { id: 110, title: 'Task 11', complete: 20 },
   { id: 120, title: 'Task 12', complete: 20 },
-  { id: 130, title: 'Task 13', complete: 20 },
+  { id: 130, title: { 'set':[{}, {}] }, complete: 20 },
 ]
 
 const columnMenu = [{

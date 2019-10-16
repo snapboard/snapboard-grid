@@ -1,6 +1,6 @@
 import React from 'react'
 import isObject from 'lodash/isObject'
-import isArray from 'lodash/isArray'
+// import isArray from 'lodash/isArray'
 import OutsideClickHandler from 'react-outside-click-handler'
 // import KeyboardEventHandler from 'react-keyboard-event-handler'
 import { css } from '@emotion/core'
