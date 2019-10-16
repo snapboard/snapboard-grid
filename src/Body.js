@@ -6,7 +6,7 @@ import sharedStyles from './styles'
 
 class Body extends React.Component {
   renderCell = ({ columnIndex, selectedCell, editingCell, key, rowIndex, style }) => {
-    const { rowGetter, getColumn, onEditDone, rowCount, showAddRow } = this.props
+    const { rowGetter, getColumn, onEditDone, rowCount, showAddRow, readOnly } = this.props
 
     if (columnIndex < 1) return
     if (showAddRow && rowIndex === rowCount) return
@@ -57,6 +57,7 @@ class Body extends React.Component {
         onChange={onChange}
         onEditDone={onEditDone}
         component={column.component}
+        readOnly={readOnly}
       />
     )
   }

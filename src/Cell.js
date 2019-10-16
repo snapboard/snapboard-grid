@@ -40,6 +40,7 @@ class Cell extends React.Component {
   }
 
   onChange = (e) => {
+    if (this.props.readOnly) return
     const value = e.target.value
     this.props.onChange(value, e)
     this.setState({
@@ -57,6 +58,7 @@ class Cell extends React.Component {
       onClick,
       onChange,
       component,
+      readOnly,
       ...rest
     } = this.props
 
@@ -82,6 +84,7 @@ class Cell extends React.Component {
           {...rest}
         >
           <CellComponent
+            readOnly={readOnly}
             innerRef={this.getInputRef}
             isEditing={isEditing}
             onChange={this.onChange}

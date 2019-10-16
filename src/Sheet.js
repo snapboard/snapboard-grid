@@ -91,7 +91,7 @@ class Sheet extends React.Component {
   }
 
   editCell = (cell) => {
-    if (this.props.readOnly) return
+    // if (this.props.readOnly) return
     if (cell === null) {
       this.setState({ editingCell: null })
       return
@@ -211,6 +211,7 @@ class Sheet extends React.Component {
       onAddRow,
       onAddColumn,
       noHeader,
+      readOnly,
     } = this.props
 
     const {
@@ -296,6 +297,7 @@ class Sheet extends React.Component {
                                 selectedCell={selectedCell}
                                 scrolledToCell={scrolledToCell}
                                 onEditDone={this.handleOnEditDone}
+                                readOnly={readOnly}
                                 editCell={this.editCell}
                                 selectCell={this.selectCell}
                                 scrollToCell={this.scrollToCell}
