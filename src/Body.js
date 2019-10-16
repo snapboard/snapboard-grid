@@ -56,6 +56,7 @@ class Body extends React.Component {
         onDoubleClick={onEditCell}
         onChange={onChange}
         onEditDone={onEditDone}
+        component={column.component}
       />
     )
   }

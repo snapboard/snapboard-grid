@@ -1,9 +1,7 @@
 import React from 'react'
-import isObject from 'lodash/isObject'
-// import isArray from 'lodash/isArray'
 import OutsideClickHandler from 'react-outside-click-handler'
-// import KeyboardEventHandler from 'react-keyboard-event-handler'
 import { css } from '@emotion/core'
+import TextCell from './cells/TextCell'
 import sharedStyles from './styles'
 
 class Cell extends React.Component {
@@ -58,6 +56,7 @@ class Cell extends React.Component {
       onEditDone,
       onClick,
       onChange,
+      component,
       ...rest
     } = this.props
 
@@ -71,14 +70,7 @@ class Cell extends React.Component {
       cellStyles.push(css`background: #eee;`)
     }
 
-    const cellInnerEl = isEditing ? (
-      <input
-        value={this.state.updatedValue}
-        onChange={this.onChange}
-        ref={this.getInputRef}
-        css={styles.input}
-      />
-    ) : getValue(value)
+    const CellComponent = component || TextCell
 
     return (
       <OutsideClickHandler disabled={!isEditing} onOutsideClick={onEditDone}>
@@ -89,35 +81,22 @@ class Cell extends React.Component {
           onClick={onClick}
           {...rest}
         >
-          {cellInnerEl}
+          <CellComponent
+            innerRef={this.getInputRef}
+            isEditing={isEditing}
+            onChange={this.onChange}
+            value={this.state.updatedValue}
+          />
         </div>
       </OutsideClickHandler>
     )
   }
 }
 
-function getValue (value) {
-  // if (isArray(value)) return value[0]
-  if (isObject(value)) return JSON.stringify(value)
-  if (value && value.toString) return value.toString()
-  if (value === null) return 'null'
-  return value
-}
-
 const styles = {
   cell: css`
     outline: none;
     background: #fff;
-  `,
-  input: css`
-    font-size: 100%;
-    outline: none;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    box-shadow: none;
-    background: #fff;
-    border-radius: 0;
   `,
   display: css`
     white-space: nowrap;
