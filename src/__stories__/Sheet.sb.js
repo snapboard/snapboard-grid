@@ -22,6 +22,7 @@ const columns = [
   { key: 'complete', name: 'Complete', editable: true, width: 300 },
   { key: 'success', name: 'Success', width: 100 },
   { key: 'started', name: 'Started At', width: 100 },
+  { key: 'custom', name: 'Custom', component: () => 'Custom!' },
 ]
 
 const rows = [
